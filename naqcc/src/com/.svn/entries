@@ -1,0 +1,38 @@
+10
+
+dir
+3
+svn+ssh://kboo@svn.code.sf.net/p/sdr4java/code/SDR4Java/src/com
+svn+ssh://kboo@svn.code.sf.net/p/sdr4java/code
+
+
+
+2011-09-22T16:14:17.612235Z
+3
+kboo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+8ef6d080-1f0d-4c49-8487-a557af796f36
+
+
+
+
+
+
+0
+
+borasoft
+dir
+
