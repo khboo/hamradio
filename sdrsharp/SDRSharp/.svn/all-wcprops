@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/sdrsharp/!svn/ver/221/trunk/SDRSharp
+END
+mixer.ico
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/sdrsharp/!svn/ver/2/trunk/SDRSharp/mixer.ico
+END
+Pipe.cs
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/sdrsharp/!svn/ver/148/trunk/SDRSharp/Pipe.cs
+END
+MainForm.cs
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/sdrsharp/!svn/ver/219/trunk/SDRSharp/MainForm.cs
+END
+SDRSharp.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/sdrsharp/!svn/ver/192/trunk/SDRSharp/SDRSharp.csproj
+END
+MainForm.Designer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/sdrsharp/!svn/ver/210/trunk/SDRSharp/MainForm.Designer.cs
+END
+MainForm.resx
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/sdrsharp/!svn/ver/115/trunk/SDRSharp/MainForm.resx
+END
+Program.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/sdrsharp/!svn/ver/219/trunk/SDRSharp/Program.cs
+END
+App.config
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/sdrsharp/!svn/ver/221/trunk/SDRSharp/App.config
+END

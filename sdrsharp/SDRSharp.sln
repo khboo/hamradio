@@ -1,0 +1,49 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDRSharp", "SDRSharp\SDRSharp.csproj", "{7EB66BC2-6667-468F-8A95-CF49491CD67F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDRSharp.Radio", "Radio\SDRSharp.Radio.csproj", "{1E08E7FD-5A13-454D-ADBD-C1A0B75ECF2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDRSharp.PanView", "PanView\SDRSharp.PanView.csproj", "{C9292D31-4761-48FC-BEE0-9035D27F68BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDRSharp.SoftRock", "SoftRock\SDRSharp.SoftRock.csproj", "{905386A0-FCE6-4110-8EAA-DC75A239E330}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDRSharp.FUNcube", "FUNcube\SDRSharp.FUNcube.csproj", "{06334FD5-FB22-4805-8FDD-1DC21DA213CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDRSharp.CollapsiblePanel", "CollapsiblePanel\SDRSharp.CollapsiblePanel.csproj", "{279AE777-D3DE-449A-9501-A83677F2B97A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Windows x86 = Debug|Windows x86
+		Release|Windows x86 = Release|Windows x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7EB66BC2-6667-468F-8A95-CF49491CD67F}.Debug|Windows x86.ActiveCfg = Debug|x86
+		{7EB66BC2-6667-468F-8A95-CF49491CD67F}.Debug|Windows x86.Build.0 = Debug|x86
+		{7EB66BC2-6667-468F-8A95-CF49491CD67F}.Release|Windows x86.ActiveCfg = Release|x86
+		{7EB66BC2-6667-468F-8A95-CF49491CD67F}.Release|Windows x86.Build.0 = Release|x86
+		{1E08E7FD-5A13-454D-ADBD-C1A0B75ECF2D}.Debug|Windows x86.ActiveCfg = Debug|x86
+		{1E08E7FD-5A13-454D-ADBD-C1A0B75ECF2D}.Debug|Windows x86.Build.0 = Debug|x86
+		{1E08E7FD-5A13-454D-ADBD-C1A0B75ECF2D}.Release|Windows x86.ActiveCfg = Release|x86
+		{1E08E7FD-5A13-454D-ADBD-C1A0B75ECF2D}.Release|Windows x86.Build.0 = Release|x86
+		{C9292D31-4761-48FC-BEE0-9035D27F68BC}.Debug|Windows x86.ActiveCfg = Debug|x86
+		{C9292D31-4761-48FC-BEE0-9035D27F68BC}.Debug|Windows x86.Build.0 = Debug|x86
+		{C9292D31-4761-48FC-BEE0-9035D27F68BC}.Release|Windows x86.ActiveCfg = Release|x86
+		{C9292D31-4761-48FC-BEE0-9035D27F68BC}.Release|Windows x86.Build.0 = Release|x86
+		{905386A0-FCE6-4110-8EAA-DC75A239E330}.Debug|Windows x86.ActiveCfg = Debug|x86
+		{905386A0-FCE6-4110-8EAA-DC75A239E330}.Debug|Windows x86.Build.0 = Debug|x86
+		{905386A0-FCE6-4110-8EAA-DC75A239E330}.Release|Windows x86.ActiveCfg = Release|x86
+		{905386A0-FCE6-4110-8EAA-DC75A239E330}.Release|Windows x86.Build.0 = Release|x86
+		{06334FD5-FB22-4805-8FDD-1DC21DA213CA}.Debug|Windows x86.ActiveCfg = Debug|x86
+		{06334FD5-FB22-4805-8FDD-1DC21DA213CA}.Debug|Windows x86.Build.0 = Debug|x86
+		{06334FD5-FB22-4805-8FDD-1DC21DA213CA}.Release|Windows x86.ActiveCfg = Release|x86
+		{06334FD5-FB22-4805-8FDD-1DC21DA213CA}.Release|Windows x86.Build.0 = Release|x86
+		{279AE777-D3DE-449A-9501-A83677F2B97A}.Debug|Windows x86.ActiveCfg = Debug|x86
+		{279AE777-D3DE-449A-9501-A83677F2B97A}.Debug|Windows x86.Build.0 = Debug|x86
+		{279AE777-D3DE-449A-9501-A83677F2B97A}.Release|Windows x86.ActiveCfg = Release|x86
+		{279AE777-D3DE-449A-9501-A83677F2B97A}.Release|Windows x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

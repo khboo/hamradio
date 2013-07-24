@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/sdrsharp/!svn/ver/186/trunk/PanView
+END
+GradientDialog.cs
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/sdrsharp/!svn/ver/15/trunk/PanView/GradientDialog.cs
+END
+SpectrumAnalyzer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/sdrsharp/!svn/ver/169/trunk/PanView/SpectrumAnalyzer.cs
+END
+Waterfall.cs
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/sdrsharp/!svn/ver/169/trunk/PanView/Waterfall.cs
+END
+GradientDialog.Designer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/sdrsharp/!svn/ver/15/trunk/PanView/GradientDialog.Designer.cs
+END
+GradientDialog.resx
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/sdrsharp/!svn/ver/12/trunk/PanView/GradientDialog.resx
+END
+SDRSharp.PanView.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/sdrsharp/!svn/ver/186/trunk/PanView/SDRSharp.PanView.csproj
+END

@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/sdrsharp/!svn/ver/223/trunk/Radio
+END
+IQBalancer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/sdrsharp/!svn/ver/223/trunk/Radio/IQBalancer.cs
+END
+StreamControl.cs
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/sdrsharp/!svn/ver/217/trunk/Radio/StreamControl.cs
+END
+Decimator.cs
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/sdrsharp/!svn/ver/220/trunk/Radio/Decimator.cs
+END
+SDRSharp.Radio.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/sdrsharp/!svn/ver/216/trunk/Radio/SDRSharp.Radio.csproj
+END
+DsbDetector.cs
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/sdrsharp/!svn/ver/191/trunk/Radio/DsbDetector.cs
+END
+IFrontendController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/sdrsharp/!svn/ver/183/trunk/Radio/IFrontendController.cs
+END
+AmDetector.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/sdrsharp/!svn/ver/146/trunk/Radio/AmDetector.cs
+END
+Utils.cs
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/sdrsharp/!svn/ver/219/trunk/Radio/Utils.cs
+END
+Fourier.cs
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/sdrsharp/!svn/ver/164/trunk/Radio/Fourier.cs
+END
+Complex.cs
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/sdrsharp/!svn/ver/181/trunk/Radio/Complex.cs
+END
+DcRemover.cs
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/sdrsharp/!svn/ver/146/trunk/Radio/DcRemover.cs
+END
+FmDetector.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/sdrsharp/!svn/ver/220/trunk/Radio/FmDetector.cs
+END
+FifoStream.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/sdrsharp/!svn/ver/205/trunk/Radio/FifoStream.cs
+END
+UsbDetector.cs
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/sdrsharp/!svn/ver/162/trunk/Radio/UsbDetector.cs
+END
+AutomaticGain.cs
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/sdrsharp/!svn/ver/219/trunk/Radio/AutomaticGain.cs
+END
+FirFilter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/sdrsharp/!svn/ver/219/trunk/Radio/FirFilter.cs
+END
+UnsafeBuffer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/sdrsharp/!svn/ver/217/trunk/Radio/UnsafeBuffer.cs
+END
+FilterBuilder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/sdrsharp/!svn/ver/166/trunk/Radio/FilterBuilder.cs
+END
+LsbDetector.cs
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/sdrsharp/!svn/ver/162/trunk/Radio/LsbDetector.cs
+END
+DetectorType.cs
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/sdrsharp/!svn/ver/191/trunk/Radio/DetectorType.cs
+END
+Oscillator.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/sdrsharp/!svn/ver/216/trunk/Radio/Oscillator.cs
+END
+IQFirFilter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/sdrsharp/!svn/ver/216/trunk/Radio/IQFirFilter.cs
+END
+Vfo.cs
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/sdrsharp/!svn/ver/220/trunk/Radio/Vfo.cs
+END
