@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/sdrsharp/!svn/ver/214/trunk/FUNcube
+END
+FCDControllerDialog.Designer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/sdrsharp/!svn/ver/214/trunk/FUNcube/FCDControllerDialog.Designer.cs
+END
+FCDControllerDialog.cs
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/sdrsharp/!svn/ver/214/trunk/FUNcube/FCDControllerDialog.cs
+END
+FunCubeIO.cs
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/sdrsharp/!svn/ver/212/trunk/FUNcube/FunCubeIO.cs
+END
+UsbDevice.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/sdrsharp/!svn/ver/97/trunk/FUNcube/UsbDevice.cs
+END
+UsbAPI.cs
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/sdrsharp/!svn/ver/97/trunk/FUNcube/UsbAPI.cs
+END
+rfchain.png
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/sdrsharp/!svn/ver/213/trunk/FUNcube/rfchain.png
+END
+FCDControllerDialog.resx
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/sdrsharp/!svn/ver/213/trunk/FUNcube/FCDControllerDialog.resx
+END
+SDRSharp.FUNcube.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/sdrsharp/!svn/ver/184/trunk/FUNcube/SDRSharp.FUNcube.csproj
+END

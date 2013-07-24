@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <section name="frontendPlugins" type ="System.Configuration.DictionarySectionHandler"/>
+  </configSections>
+  <appSettings>
+    <add key="inputGain" value="0" />
+    <add key="displayTimerInterval" value="40" />
+    <add key="automaticIQBalancePasses" value="5" />
+    <add key="waterfallAttack" value="1.0" />
+    <add key="waterfallDecay" value="0.9" />
+    <add key="spectrumAnalyzerAttack" value="0.9" />
+    <add key="spectrumAnalyzerDecay" value="0.7" />
+    <add key="gradient" value="FF0000,FF0000,FF0000,FF0000,FF0000,FF8040,FFFF00,1E90FF,000091,000050,000030,000020,000000,000000,000000,000000" />
+    <add key="spectrumAnalyzerGradient" value="FFFFFF,ADD8E6,1E90FF,000050,000000" />
+    <add key="fillSpectrumAnalyzer" value="yes" />
+    <add key="funcubeFrequencyCorrection" value="-115.0"/>
+    <add key="softrockFrequencyMultiplier" value="4"/>
+  </appSettings>
+  <frontendPlugins>
+    <add key="SoftRock / Si570" value="SDRSharp.SoftRock.SoftRockIO,SDRSharp.SoftRock" />
+    <add key="FUNcube Dongle" value="SDRSharp.FUNcube.FunCubeIO,SDRSharp.FUNcube" />
+  </frontendPlugins>
+</configuration>

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/sdrsharp/!svn/ver/219/trunk/Radio/PortAudio
+END
+AudioDevice.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/sdrsharp/!svn/ver/29/trunk/Radio/PortAudio/AudioDevice.cs
+END
+WavePlayer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/sdrsharp/!svn/ver/162/trunk/Radio/PortAudio/WavePlayer.cs
+END
+DeviceDirection.cs
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/sdrsharp/!svn/ver/21/trunk/Radio/PortAudio/DeviceDirection.cs
+END
+WaveDuplex.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/sdrsharp/!svn/ver/162/trunk/Radio/PortAudio/WaveDuplex.cs
+END
+WaveRecorder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/sdrsharp/!svn/ver/162/trunk/Radio/PortAudio/WaveRecorder.cs
+END
+WaveFile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/sdrsharp/!svn/ver/219/trunk/Radio/PortAudio/WaveFile.cs
+END
+PortAudio.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/sdrsharp/!svn/ver/152/trunk/Radio/PortAudio/PortAudio.cs
+END
