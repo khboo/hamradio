@@ -81,10 +81,10 @@ public final class EMailReader {
    * An example argv[] : 
    * 
    * Brinkster
-   * -D -T pop3s -H webmail.brinkster.com -U foo@borasoft.com -P Bar
+   * -D -T pop3s -H webmail.brinkster.com -U foo@borasoft.com -P Bar -O c:/temp2 -S "NAQCC Sprint Log"
    * 
    * Hotmail
-   * -D -T pop3s -H pop3.live.com -U foo@hotmail.com -P Bar
+   * -D -T pop3s -H pop3.live.com -U foo@hotmail.com -P Bar -O c:/temp2 -S "NAQCC Sprint Log"
    * POP3 server: pop3.live.com (port 995)
    * SMTP server: smtp.live.com (port 25)
    */
@@ -126,6 +126,8 @@ public final class EMailReader {
 
       if (mbox == null) {
         mbox = "INBOX";
+        // Only INBOX supported
+        //mbox = "NAQCC Sprints/mW 2013 Jun";
       }
       folder = folder.getFolder(mbox);
       if (folder == null) {
@@ -566,5 +568,9 @@ public final class EMailReader {
       writer.print(indentStr.substring(0, level * 2));
     }
     writer.println(s);
+  }
+  
+  public String getOutputDir() {
+    return outputDir;
   }
 }

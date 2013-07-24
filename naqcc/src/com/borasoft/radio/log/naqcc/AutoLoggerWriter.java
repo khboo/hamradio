@@ -7,14 +7,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 public class AutoLoggerWriter {
 	private PrintWriter writer;
-	private LogEntry logEntry;
 
-	public AutoLoggerWriter(OutputStreamWriter writer, LogEntry logEntry) {
+	public AutoLoggerWriter(OutputStreamWriter writer) {
 		this.writer = new PrintWriter(writer);
-		this.logEntry = logEntry;
 	}
 	
 	public void writeHTML() {
@@ -22,6 +22,23 @@ public class AutoLoggerWriter {
 		generateScores();
 		generateSoapbox();
 		generateEpilog();
+	}
+	
+	public void writeText(Hashtable<String,LogEntry[]> entries) {
+	  Enumeration<String> enu = entries.keys();
+	  String key;
+	  LogEntry[] entryArray;
+	  LogEntry entry;
+	  while(enu.hasMoreElements()) {
+	    key = enu.nextElement();
+	    writer.println("Call area: " + key);
+	    entryArray = entries.get(key);
+	    for(int i=entryArray.length-1; i>=0; i--) {
+	      entry = entryArray[i];
+	      writer.println(entry.getCallsign() + "," + entry.getFinal());
+	    }
+	    writer.println("");
+	  }
 	}
 	
 	private void generateProlog() {
@@ -34,6 +51,7 @@ public class AutoLoggerWriter {
 
 		writer.println("<span class=\"red\">SWA Category - W3 Division</span>");
 		writer.println("Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna");
+		/*
 		writer.println
 			(logEntry.getCallsign() + "   "
 			 + logEntry.getQSOs() + "   "
@@ -44,6 +62,7 @@ public class AutoLoggerWriter {
 			 + logEntry.getBonusMult() + "   "
 			 + logEntry.getFinal() + "   "
 			 + logEntry.getAntenna());
+			 */
 		/*
 		<span class="red">SWA Category - W1 Division</span>
 		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
@@ -105,9 +124,9 @@ public class AutoLoggerWriter {
 	private void generateSoapbox() {
 		// <span class="blackboldmedium">SOAPBOX:</span><br>
 		writer.println("<span class=\"blackboldmedium\">SOAPBOX:</span><br>");
-		String callsign = logEntry.getCallsign();
-		String soapbox = logEntry.getSoapbox();
-		writer.println(callsign + " - " + soapbox + "<br/><br/>");
+		//String callsign = logEntry.getCallsign();
+		//String soapbox = logEntry.getSoapbox();
+		//writer.println(callsign + " - " + soapbox + "<br/><br/>");
 	}
 	
 	private void generateEpilog() {
@@ -124,7 +143,7 @@ public class AutoLoggerWriter {
 		
 		FileOutputStream ostream = new FileOutputStream("autologger_sample.html");
 		OutputStreamWriter writer = new OutputStreamWriter(ostream);
-		AutoLoggerWriter loggerWriter = new AutoLoggerWriter(writer,logEntry);
+		AutoLoggerWriter loggerWriter = new AutoLoggerWriter(writer);
 		loggerWriter.writeHTML();
 		writer.close();
 	}
