@@ -1,0 +1,23 @@
+http://gitready.com/beginner/2009/01/21/pushing-and-pulling.html
+
+
+$ git pull origin master
+  remote: Counting objects: 7, done.        
+  remote: Compressing objects: 100% (4/4), done.        
+  remote: Total 4 (delta 2), reused 0 (delta 0)        
+  Updating 361303d..f2cd831
+  Fast forward
+   _layouts/default.html |    1 +
+    1 files changed, 1 insertions(+), 0 deletions(-)
+
+$ git commit -am "Adding twitter link"
+  Created commit f2cd831: Adding twitter link
+  1 files changed, 1 insertions(+), 0 deletions(-)
+
+$ git push origin master
+  Counting objects: 7, done.
+  Compressing objects: 100% (4/4), done.
+  Writing objects: 100% (4/4), 407 bytes, done.
+  Total 4 (delta 2), reused 0 (delta 0)
+  To git@github.com:qrush/gitready.git
+     361303d..f2cd831  master -> master
