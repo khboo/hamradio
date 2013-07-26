@@ -31,13 +31,14 @@ public class AutoLoggerWriter {
 	  LogEntry entry;
 	  while(enu.hasMoreElements()) {
 	    key = enu.nextElement();
-	    writer.println("Call area: " + key);
+	    writer.println("SWA Category - " + key + " Division");
+	    writer.printf("%6s %4s %4s %3s %3s %4s %3s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
 	    entryArray = entries.get(key);
 	    for(int i=entryArray.length-1; i>=0; i--) {
 	      entry = entryArray[i];
-	      writer.println(entry.getCallsign() + "," + entry.getFinal());
+	      // callsign(6), qso(4), member qso(4), points(3), multiplier(3), score(4), bonus(3), final(5), antenna
+	      writer.printf("%6s %4s %4s %3d %3s %4d x%3s %5d %s\n",entry.getCallsign(),entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),entry.getBonusMult(),entry.getFinal(),entry.getAntenna());
 	    }
-	    writer.println("");
 	  }
 	}
 	
