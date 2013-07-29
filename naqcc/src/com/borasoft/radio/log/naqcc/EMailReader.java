@@ -43,7 +43,7 @@ public final class EMailReader {
   private int optind;
 
   private PrintWriter partWriter;
-    
+   
   public EMailReader(String[] argv) {
     for (optind = 0; optind < argv.length; optind++) {
       if (argv[optind].equals("-T")) {

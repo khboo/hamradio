@@ -1,5 +1,6 @@
 package com.borasoft.radio.log.naqcc;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,14 +18,14 @@ public class AutoLoggerWriter {
 		this.writer = new PrintWriter(writer);
 	}
 	
-	public void writeHTML() {
+	public void writeHTML(Hashtable<String,LogEntry[]> entries) throws IOException{
 		generateProlog();
-		generateScores();
-		generateSoapbox();
+		generateScores(entries);
+		generateSoapbox(entries);
 		generateEpilog();
 	}
 	
-	public void writeText(Hashtable<String,LogEntry[]> entries) {
+	public void writeText(Hashtable<String,LogEntry[]> entries) throws IOException {
 	  Enumeration<String> enu = entries.keys();
 	  String key;
 	  LogEntry[] entryArray;
@@ -32,66 +33,64 @@ public class AutoLoggerWriter {
 	  while(enu.hasMoreElements()) {
 	    key = enu.nextElement();
 	    writer.println("SWA Category - " + key + " Division");
-	    writer.printf("%6s %4s %4s %3s %3s %4s %3s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
+	    writer.printf("%6s %4s %4s %3s %3s %4s %4s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
 	    entryArray = entries.get(key);
+	    String bonus = "";
 	    for(int i=entryArray.length-1; i>=0; i--) {
 	      entry = entryArray[i];
+	      // formatting for bonus
+	      bonus = entry.getBonusMult();
+	      if (bonus.equalsIgnoreCase("1")) {
+	        bonus = "";
+	      } else {
+	        bonus = "x" + bonus;
+	      }
 	      // callsign(6), qso(4), member qso(4), points(3), multiplier(3), score(4), bonus(3), final(5), antenna
-	      writer.printf("%6s %4s %4s %3d %3s %4d x%3s %5d %s\n",entry.getCallsign(),entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),entry.getBonusMult(),entry.getFinal(),entry.getAntenna());
+	      writer.printf("%6s %4s %4s %3d %3s %4d %4s %5d %s\n",entry.getCallsign(),entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),bonus,entry.getFinal(),entry.getAntenna());
 	    }
+	    writer.println();
 	  }
 	}
 	
-	private void generateProlog() {
-		
+	private void generateProlog() throws FileNotFoundException, IOException {
+	  int c;
+	  InputStreamReader reader = new InputStreamReader(new FileInputStream(new File("prolog.tmp")));
+	  while((c=reader.read()) != -1) {
+	    writer.write(c);
+	  }
+	  writer.println();
+	  writer.flush();   	
 	}
 	
-	private void generateScores() {
+	private void generateScores(Hashtable<String,LogEntry[]> entries) {
 		// <pre>		
 		writer.println("<pre>");
-
-		writer.println("<span class=\"red\">SWA Category - W3 Division</span>");
-		writer.println("Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna");
-		/*
-		writer.println
-			(logEntry.getCallsign() + "   "
-			 + logEntry.getQSOs() + "   "
-			 + logEntry.getMemberQSOs() + "   "
-			 + logEntry.getPoints() + "   "
-			 + logEntry.getMultipliers() + "   "
-			 + logEntry.getScore() + " x"
-			 + logEntry.getBonusMult() + "   "
-			 + logEntry.getFinal() + "   "
-			 + logEntry.getAntenna());
-			 */
-		/*
-		<span class="red">SWA Category - W1 Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - W2 Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - W3 Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - W4 Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - W5 Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - W6 Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - W7 Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - W8 Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - W9 Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - W0 Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - Canada Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">SWA Category - DX Division</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		<span class="red">GAIN ANTENNA Category</span>
-		Call   QSOs Mbrs Pts  Mul  Sco Bon Final  160 Antenna
-		*/
+		
+    Enumeration<String> enu = entries.keys();
+    String key;
+    LogEntry[] entryArray;
+    LogEntry entry;
+    while(enu.hasMoreElements()) {
+      key = enu.nextElement();
+      // <span class="red">SWA Category - W1 Division</span>
+      writer.println("<span class=\"red\">SWA Category - " + key + " Division</span>");
+      writer.printf("%6s %4s %4s %3s %3s %4s %4s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
+      entryArray = entries.get(key);
+      String bonus = "";
+      for(int i=entryArray.length-1; i>=0; i--) {
+        entry = entryArray[i];
+        // formatting for bonus
+        bonus = entry.getBonusMult();
+        if (bonus.equalsIgnoreCase("1")) {
+          bonus = "";
+        } else {
+          bonus = "x" + bonus;
+        }
+        // callsign(6), qso(4), member qso(4), points(3), multiplier(3), score(4), bonus(3), final(5), antenna
+        writer.printf("%6s %4s %4s %3d %3s %4d %4s %5d %s\n",entry.getCallsign(),entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),bonus,entry.getFinal(),entry.getAntenna());
+      }
+      writer.println();
+    }
 		
 		/*
 		<span class="red">AWARD WINNERS:</span>
@@ -122,16 +121,35 @@ public class AutoLoggerWriter {
 		writer.println("</pre>");		
 	}
 	
-	private void generateSoapbox() {
+	public void generateSoapbox(Hashtable<String,LogEntry[]> entries) {
 		// <span class="blackboldmedium">SOAPBOX:</span><br>
 		writer.println("<span class=\"blackboldmedium\">SOAPBOX:</span><br>");
-		//String callsign = logEntry.getCallsign();
-		//String soapbox = logEntry.getSoapbox();
-		//writer.println(callsign + " - " + soapbox + "<br/><br/>");
+		
+    Enumeration<String> enu = entries.keys();
+    String key;
+    LogEntry[] entryArray;
+    LogEntry entry;
+    while(enu.hasMoreElements()) {
+      key = enu.nextElement();
+      entryArray = entries.get(key);
+      for(int i=entryArray.length-1; i>=0; i--) {
+        entry = entryArray[i];
+        if(entry.getSoapbox().trim().length() != 0) {
+          writer.println(entry.getCallsign() + " - " + entry.getSoapbox());
+          writer.println("<br/><br/>");
+        }
+      }
+    }
 	}
 	
-	private void generateEpilog() {
-		
+	private void generateEpilog() throws IOException {
+    int c;
+    InputStreamReader reader = new InputStreamReader(new FileInputStream(new File("epilog.tmp")));
+    while((c=reader.read()) != -1) {
+      writer.write(c);
+    }
+    writer.println();
+    writer.flush(); 		
 	}
 	
 	// test only
@@ -145,7 +163,7 @@ public class AutoLoggerWriter {
 		FileOutputStream ostream = new FileOutputStream("autologger_sample.html");
 		OutputStreamWriter writer = new OutputStreamWriter(ostream);
 		AutoLoggerWriter loggerWriter = new AutoLoggerWriter(writer);
-		loggerWriter.writeHTML();
+		//loggerWriter.writeHTML();
 		writer.close();
 	}
 

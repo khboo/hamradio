@@ -12,7 +12,6 @@ public class LogEntry {
 	private String memberQSOs;
 	private String multipliers; 
 	private String bonusMult; // float format
-	private Object log; // not used
 	private String soapbox;
 	
 	public boolean validate() {
@@ -26,6 +25,15 @@ public class LogEntry {
 	}
 	
 	public String getCallsign() {
+	  // Make it fixed length with 6 characters and all uppercase.
+	  // Assumuption: The maximum length of callsign is 6.
+	  String s =  callsign.trim().toUpperCase();
+	  if (s.length()<6) {
+	    for(int i=0;i<=6-s.length();i++) {
+	      s += " ";
+	    }
+	  }
+	  callsign = s;
 		return callsign;
 	}
 	public void setCallsign(String callsign) {
@@ -50,7 +58,7 @@ public class LogEntry {
 		this.callArea = callArea;
 	}
 	public String getAntenna() {
-		return antenna;
+		return normalize(antenna);
 	}
 	public void setAntenna(String antenna) {
 		this.antenna = antenna;
@@ -86,7 +94,7 @@ public class LogEntry {
 		this.bonusMult = bonusMult;
 	}
 	public String getSoapbox() {
-		return soapbox;
+		return normalize(soapbox);
 	}
 	public void setSoapbox(String soapbox) {
 		this.soapbox = soapbox;
@@ -116,5 +124,17 @@ public class LogEntry {
 			finalScore = (int)(finalScore * Float.parseFloat(bonusMult));
 		}		
 		return finalScore;
+	}
+	
+	private String normalize(String s) {
+	  // Remove '\'
+	  String ns = s.replaceAll("[\\\\]","");
+	  // Replace '&' with "&amp;"
+	  ns = ns.replaceAll("[&]","&amp;");
+	  // Replace '<' with "&LT;"
+	  ns = ns.replaceAll("[<]","&LT;");
+	  // Replace '>' with "&GT;"
+	  ns = ns.replaceAll("[>]","&GT;");
+	  return ns;
 	}
 }
