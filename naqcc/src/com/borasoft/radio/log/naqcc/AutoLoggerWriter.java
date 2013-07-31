@@ -13,6 +13,9 @@ import java.util.Hashtable;
 
 public class AutoLoggerWriter {
 	private PrintWriter writer;
+	private final String[] callAreas = {
+	    "W1","W2","W3","W4","W5","W6","W7","W8","W9","W0","Canada","DX","Gain"
+	};
 
 	public AutoLoggerWriter(OutputStreamWriter writer) {
 		this.writer = new PrintWriter(writer);
@@ -66,19 +69,28 @@ public class AutoLoggerWriter {
 		// <pre>		
 		writer.println("<pre>");
 		
-    Enumeration<String> enu = entries.keys();
     String key;
     LogEntry[] entryArray;
     LogEntry entry;
-    while(enu.hasMoreElements()) {
-      key = enu.nextElement();
-      // <span class="red">SWA Category - W1 Division</span>
-      writer.println("<span class=\"red\">SWA Category - " + key + " Division</span>");
+
+    for (int i=0; i<callAreas.length;i++) {
+      key = callAreas[i];
+      if(i==callAreas.length-1) { // Gain antenna catefory
+        // <span class="red">GAIN Antenna Category</span>
+        writer.println("<span class=\"red\">GAIN Antenna Category</span>");
+      } else {        
+        // <span class="red">SWA Category - W1 Division</span>
+        writer.println("<span class=\"red\">SWA Category - " + key + " Division</span>");
+      }
       writer.printf("%6s %4s %4s %3s %3s %4s %4s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
       entryArray = entries.get(key);
+      if(entryArray==null) {
+        writer.println();
+        continue;
+      }
       String bonus = "";
-      for(int i=entryArray.length-1; i>=0; i--) {
-        entry = entryArray[i];
+      for(int j=entryArray.length-1; j>=0; j--) {
+        entry = entryArray[j];
         // formatting for bonus
         bonus = entry.getBonusMult();
         if (bonus.equalsIgnoreCase("1")) {
@@ -115,7 +127,7 @@ public class AutoLoggerWriter {
 		writer.println("1st SWA W0:");
 		writer.println("1st SWA Canada:");
 		writer.println("1st SWA DX:");
-		writer.println("1st SWA Gain:");
+		writer.println("1st Gain:");
 		
 		// </pre>	
 		writer.println("</pre>");		
