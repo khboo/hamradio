@@ -1,6 +1,6 @@
 2013-07-29
-- Add proper console messages during execution
-- Sort order is currently w9 to w0. this needs to be the other way around
-- Add non Wx categories
+x Add proper console messages during execution - DONE
+x Sort order is currently w9 to w0. this needs to be the other way around - DONE
+x Add non Wx categories - DONE
 - Add QRO categories
-- Add gain antenna caterories
+x Add gain antenna caterories - DONE
