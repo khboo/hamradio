@@ -95,6 +95,11 @@ public final class EMailReader {
 		System.exit(0);
 	}
   
+  private int numEMailProcessed=0;
+  public int getNumEMailProcessed() {
+    return numEMailProcessed;
+  }
+  
   public void dumpMail() {
     try {
       // Get a Properties object
@@ -184,6 +189,7 @@ public final class EMailReader {
             file = new File(outputDir,baseFilename + i + ".txt");
             partWriter = new PrintWriter(file);
             dumpPart(msgs[i],partWriter);
+            numEMailProcessed++;
             partWriter.close();
           }
         }

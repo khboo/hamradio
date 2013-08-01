@@ -29,9 +29,7 @@ public final class ContestResultGenerator {
     logger.message("\nNAQCC Sprint Result Page Generator\n");
     logger.message("Program started.");
     ContestResultGenerator gen = new ContestResultGenerator();
-    if(args.length>1) {
-      gen.readEMailAndArchive(args);
-    }
+    gen.readEMailAndArchive(args);
     gen.generateHTMLFromArchive(args); // read the value of -O, archive directory from args
     logger.message("Completed.");
     System.exit(0);
@@ -47,6 +45,9 @@ public final class ContestResultGenerator {
     logger.message("Reading email and writing to temporary files...");
     EMailReader emailReader = new EMailReader(args);
     emailReader.dumpMail();
+    if(emailReader.getNumEMailProcessed()==0) {
+      return;
+    }
     
     // Read in the submission files, build LogEntry items for score processing.
     // Rename the temporary files using the participants' radio callsigns after completing
