@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Vector;
 
 public class AutoLoggerWriter {
 	private PrintWriter writer;
@@ -21,10 +22,10 @@ public class AutoLoggerWriter {
 		this.writer = new PrintWriter(writer);
 	}
 	
-	public void writeHTML(Hashtable<String,LogEntry[]> entries) throws IOException{
+	public void writeHTML(Hashtable<String,LogEntry[]> entries,Vector<String> submissionOrder) throws IOException{
 		generateProlog();
 		generateScores(entries);
-		generateSoapbox(entries);
+		generateSoapbox(entries,submissionOrder);
 		generateEpilog();
 	}
 	
@@ -89,8 +90,16 @@ public class AutoLoggerWriter {
         continue;
       }
       String bonus = "";
-      for(int j=entryArray.length-1; j>=0; j--) {
+      String callsign="";
+      for(int j=entryArray.length-1; j>=0; j--) { // print in descending order
         entry = entryArray[j];
+        // formatting for callsign
+        callsign =  entry.getCallsign().trim().toUpperCase();
+        if (callsign.length()<6) {
+          for(int k=0;k<=6-callsign.length();k++) {
+            callsign += " ";
+          }
+        }
         // formatting for bonus
         bonus = entry.getBonusMult();
         if (bonus.equalsIgnoreCase("1")) {
@@ -99,7 +108,7 @@ public class AutoLoggerWriter {
           bonus = "x" + bonus;
         }
         // callsign(6), qso(4), member qso(4), points(3), multiplier(3), score(4), bonus(3), final(5), antenna
-        writer.printf("%6s %4s %4s %3d %3s %4d %4s %5d %s\n",entry.getCallsign(),entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),bonus,entry.getFinal(),entry.getAntenna());
+        writer.printf("%6s %4s %4s %3d %3s %4d %4s %5d %s\n",callsign,entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),bonus,entry.getFinal(),entry.getAntenna());
       }
       writer.println();
     }
@@ -133,7 +142,7 @@ public class AutoLoggerWriter {
 		writer.println("</pre>");		
 	}
 	
-	public void generateSoapbox(Hashtable<String,LogEntry[]> entries) {
+	public void generateSoapboxOLD(Hashtable<String,LogEntry[]> entries) {
 		// <span class="blackboldmedium">SOAPBOX:</span><br>
 		writer.println("<span class=\"blackboldmedium\">SOAPBOX:</span><br>");
 		
@@ -144,7 +153,7 @@ public class AutoLoggerWriter {
     while(enu.hasMoreElements()) {
       key = enu.nextElement();
       entryArray = entries.get(key);
-      for(int i=entryArray.length-1; i>=0; i--) {
+      for(int i=entryArray.length-1; i>=0; i--) { // print in descending order
         entry = entryArray[i];
         if(entry.getSoapbox().trim().length() != 0) {
           writer.println(entry.getCallsign() + " - " + entry.getSoapbox());
@@ -153,6 +162,36 @@ public class AutoLoggerWriter {
       }
     }
 	}
+	
+	public void generateSoapbox(Hashtable<String,LogEntry[]> entries,Vector<String> submissionOrder) {
+    // <span class="blackboldmedium">SOAPBOX:</span><br>
+    writer.println("<span class=\"blackboldmedium\">SOAPBOX:</span><br>");
+    
+    Enumeration<String> enu = entries.keys();
+    String key;
+    LogEntry[] entryArray;
+    LogEntry entry;
+    Hashtable<String,LogEntry> submissions = new Hashtable<String,LogEntry>();
+    while(enu.hasMoreElements()) {
+      key = enu.nextElement();
+      entryArray = entries.get(key);
+      for(int i=0;i<entryArray.length;i++) {
+        entry = entryArray[i];
+        submissions.put(entry.getCallsign(),entry);
+      }
+    }
+    // Write the soapbox contents in 'submissions' according to the order in submissions.lst. 
+    String soapbox=null;
+    Enumeration<String> e=submissionOrder.elements();
+    while(e.hasMoreElements()) {
+      key=e.nextElement();
+      entry=submissions.get(key);
+      if(entry.getSoapbox()!=null && entry.getSoapbox().trim().length() != 0) {
+        writer.println(entry.getCallsign() + " - " + entry.getSoapbox());
+        writer.println("<br/><br/>");
+      }
+    }
+  }
 	
 	private void generateEpilog() throws IOException {
     int c;

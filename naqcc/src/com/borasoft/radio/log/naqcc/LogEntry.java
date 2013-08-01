@@ -25,16 +25,7 @@ public class LogEntry {
 	}
 	
 	public String getCallsign() {
-	  // Make it fixed length with 6 characters and all uppercase.
-	  // Assumuption: The maximum length of callsign is 6.
-	  String s =  callsign.trim().toUpperCase();
-	  if (s.length()<6) {
-	    for(int i=0;i<=6-s.length();i++) {
-	      s += " ";
-	    }
-	  }
-	  callsign = s;
-		return callsign;
+		return callsign.toUpperCase();
 	}
 	public void setCallsign(String callsign) {
 		this.callsign = callsign;
