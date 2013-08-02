@@ -1,6 +1,15 @@
+TODO List
+  '-' todo
+  'x' done
+
+2013-08-01
+- Generated HTML filename externalization
+- Antenna field title externalization (160m sprint is different from mW sprint)
+  Currently, it is hard-coded as '160 Antenna'
+
 2013-07-29
 x Add proper console messages during execution - DONE
 x Sort order is currently w9 to w0. this needs to be the other way around - DONE
 x Add non Wx categories - DONE
-- Add QRO categories
+x Add QRO categories
 x Add gain antenna caterories - DONE

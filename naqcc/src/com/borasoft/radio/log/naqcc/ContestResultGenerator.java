@@ -20,6 +20,7 @@ public final class ContestResultGenerator {
   private String outputDir;
   private Logger logger;
   private final String submissionOrderFilename = "submissions.lst";
+  private final double QRO = 5; // maximum 5 watts
   
   /**
    * @param args - e.g) -D -T pop3s -H pop3.live.com -U foo@hotmail.com -P Bar -O c:/temp2 -S "NAQCC Sprint Log"
@@ -29,7 +30,7 @@ public final class ContestResultGenerator {
     logger.message("\nNAQCC Sprint Result Page Generator\n");
     logger.message("Program started.");
     ContestResultGenerator gen = new ContestResultGenerator();
-    gen.readEMailAndArchive(args);
+    //gen.readEMailAndArchive(args);
     gen.generateHTMLFromArchive(args); // read the value of -O, archive directory from args
     logger.message("Completed.");
     System.exit(0);
@@ -140,7 +141,7 @@ public final class ContestResultGenerator {
 //    loggerWriter.writeText(result);
 //    loggerWriter.generateSoapbox(result);
     Vector<String> submissionOrder = getSubmissionOrder();
-    loggerWriter.writeHTML(result,submissionOrder);
+    loggerWriter.writeHTML(result,submissionOrder,QRO);
     logger.message("The results are in: " + outputFilename);
     writer.close();
   }

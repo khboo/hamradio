@@ -1,0 +1,95 @@
+package com.borasoft.radio.log.naqcc;
+
+public class PowerLexer {
+  
+    private String in;
+    private double power =0.0; // in WATT
+    private int cursor=0;
+    
+    public PowerLexer(String s) {
+      in=s;
+    }
+    
+    private void lex() throws Exception {
+      // e.g .5w, 0.5W, 0.5mW, 0.5 mW, 0.5, etc...
+      char c;
+      while(cursor<in.length()) {
+        c=in.charAt(cursor);
+        if(c==' ') {
+          cursor++;
+          continue;
+        } else if((c>='a' && c<='z')||(c>='A' && c<='Z')) {
+          parseUnit();
+          return; // stop parsing
+        } else if(c=='.' || (c>='0' && c<='9')) {
+          parseNumber();
+        }
+      }
+    }
+    
+    private void parseNumber() {
+      // e.g. 5, 0.5, .5
+      StringBuffer buf=new StringBuffer("");
+      char c=in.charAt(cursor++);
+      if(c=='.') {
+        buf.append("0.");
+        while((c=in.charAt(cursor++))>='0' && c<='9') {
+          buf.append(c);
+        }
+        buf.trimToSize();
+        power=Double.valueOf(buf.toString()).doubleValue();
+      } else {
+        buf.append(c);
+        while(((c=in.charAt(cursor++))>='0' && c<='9') || c=='.') {
+          buf.append(c);
+        }
+        buf.trimToSize();
+        power=Double.valueOf(buf.toString()).doubleValue();
+      }
+      cursor--;
+      return;    
+    }
+    
+    private void parseUnit() throws Exception {
+      // e.g. w, W, mW, etc...
+      // Here, as soon as we see the first character 'w', 'W', or 'm', we stop further parsing.
+      // If we see something else, raise an exception.
+      char c=in.charAt(cursor);
+      if(c=='w' || c=='W') {
+        // the value of power remains the same
+      } else if (c=='m') {
+        power = power * 0.001;
+      } else {
+        throw new Exception("Unknown power unit: " + c);
+      }
+    }
+    
+    public double getPower() throws Exception {
+      lex();
+      return power;
+    }
+    
+    static public void main(String[] args) throws Exception {
+      PowerLexer lexer=new PowerLexer("900mW");
+      double d=lexer.getPower();
+      System.out.println("Power is: "+d+"watts");
+      
+      lexer=new PowerLexer(".9 W");
+      d=lexer.getPower();
+      System.out.println("Power is: "+d+"watts");
+      
+      lexer=new PowerLexer("900 mW");
+      d=lexer.getPower();
+      System.out.println("Power is: "+d+"watts");
+      
+      lexer=new PowerLexer("0.9W");
+      d=lexer.getPower();
+      System.out.println("Power is: "+d+"watts");
+      
+      lexer=new PowerLexer("0.9w");
+      d=lexer.getPower();
+      System.out.println("Power is: "+d+"watts");
+      
+    }
+      
+}

@@ -12,17 +12,22 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import com.borasoft.radio.utils.Logger;
+
 public class AutoLoggerWriter {
 	private PrintWriter writer;
 	private final String[] callAreas = {
 	    "W1","W2","W3","W4","W5","W6","W7","W8","W9","W0","Canada","DX","Gain"
 	};
+	private Logger logger=Logger.getInstance();
+	
+	private double maximumPower = 5; // maximum 5 watts
 
 	public AutoLoggerWriter(OutputStreamWriter writer) {
 		this.writer = new PrintWriter(writer);
 	}
 	
-	public void writeHTML(Hashtable<String,LogEntry[]> entries,Vector<String> submissionOrder) throws IOException{
+	public void writeHTML(Hashtable<String,LogEntry[]> entries,Vector<String> submissionOrder,double maxPower) throws IOException{
 		generateProlog();
 		generateScores(entries);
 		generateSoapbox(entries,submissionOrder);
@@ -73,46 +78,52 @@ public class AutoLoggerWriter {
     String key;
     LogEntry[] entryArray;
     LogEntry entry;
+    Vector<LogEntry> qroEntries;
 
     for (int i=0; i<callAreas.length;i++) {
       key = callAreas[i];
-      if(i==callAreas.length-1) { // Gain antenna catefory
+      if(i==callAreas.length-1) { // Gain antenna category
         // <span class="red">GAIN Antenna Category</span>
         writer.println("<span class=\"red\">GAIN Antenna Category</span>");
       } else {        
         // <span class="red">SWA Category - W1 Division</span>
         writer.println("<span class=\"red\">SWA Category - " + key + " Division</span>");
       }
-      writer.printf("%6s %4s %4s %3s %3s %4s %4s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
+      writer.printf("%6s %4s %4s %3s %3s %4s %4s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","160 Antenna");
       entryArray = entries.get(key);
       if(entryArray==null) {
         writer.println();
         continue;
       }
-      String bonus = "";
-      String callsign="";
+
+      PowerLexer lexer;
+      qroEntries = new Vector<LogEntry>();
       for(int j=entryArray.length-1; j>=0; j--) { // print in descending order
         entry = entryArray[j];
-        // formatting for callsign
-        callsign =  entry.getCallsign().trim().toUpperCase();
-        if (callsign.length()<6) {
-          for(int k=0;k<=6-callsign.length();k++) {
-            callsign += " ";
+        lexer=new PowerLexer(entry.getPower());
+        try {
+          if(lexer.getPower()<=maximumPower) {
+            writeScore(entry);
+          } else {
+            entry.setCallsign("@"+entry.getCallsign());
+            qroEntries.add(entry);
           }
+        } catch (Exception e) {
+          logger.error("Unknown power: "+ entry.getPower()+ " from "+entry.getCallsign());
+          logger.error("The log submission for "+entry.getCallsign()+" is not processed.");
         }
-        // formatting for bonus
-        bonus = entry.getBonusMult();
-        if (bonus.equalsIgnoreCase("1")) {
-          bonus = "";
-        } else {
-          bonus = "x" + bonus;
-        }
-        // callsign(6), qso(4), member qso(4), points(3), multiplier(3), score(4), bonus(3), final(5), antenna
-        writer.printf("%6s %4s %4s %3d %3s %4d %4s %5d %s\n",callsign,entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),bonus,entry.getFinal(),entry.getAntenna());
       }
+      // print out QRO entries
+      for(int k=0;k<qroEntries.size();k++) {
+        entry=qroEntries.elementAt(i);
+        writeScore(entry);
+      }      
       writer.println();
     }
-		
+    writeAwardWinners();
+	}
+	
+	private void writeAwardWinners() {		
 		/*
 		<span class="red">AWARD WINNERS:</span>
 		1st SWA W1:
@@ -140,6 +151,25 @@ public class AutoLoggerWriter {
 		
 		// </pre>	
 		writer.println("</pre>");		
+	}
+	
+	private void writeScore(LogEntry entry) {
+	  // formatting for callsign
+	  String callsign =  entry.getCallsign().trim().toUpperCase();
+	  if (callsign.length()<6) {
+	    for(int k=0;k<=6-callsign.length();k++) {
+	      callsign += " ";
+	    }
+	  }
+	  // formatting for bonus
+	  String bonus = entry.getBonusMult();
+	  if (bonus.equalsIgnoreCase("1")) {
+	    bonus = "";
+	  } else {
+	    bonus = "x" + bonus;
+	  }
+	  // callsign(6), qso(4), member qso(4), points(3), multiplier(3), score(4), bonus(3), final(5), antenna
+	  writer.printf("%6s %4s %4s %3d %3s %4d %4s %5d %s\n",callsign,entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),bonus,entry.getFinal(),entry.getAntenna());
 	}
 	
 	public void generateSoapboxOLD(Hashtable<String,LogEntry[]> entries) {
@@ -185,6 +215,7 @@ public class AutoLoggerWriter {
     Enumeration<String> e=submissionOrder.elements();
     while(e.hasMoreElements()) {
       key=e.nextElement();
+      //logger.info("Generating soapbox comments for: "+key);
       entry=submissions.get(key);
       if(entry.getSoapbox()!=null && entry.getSoapbox().trim().length() != 0) {
         writer.println(entry.getCallsign() + " - " + entry.getSoapbox());

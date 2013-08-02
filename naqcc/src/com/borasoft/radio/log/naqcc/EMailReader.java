@@ -152,7 +152,7 @@ public final class EMailReader {
         System.out.println("Empty folder");
         folder.close(false);
         store.close();
-        System.exit(1);
+        return;
       }
 
       if (verbose) {
