@@ -16,11 +16,15 @@ import java.util.Vector;
 
 import com.borasoft.radio.utils.Logger;
 
+// TODO: Externalize the generated output HTML file name. 
+//       Currently it is set to "sprint201312mw.html".
+//       Externalize QRO. Currently it does not do anything.
+
 public final class ContestResultGenerator {
   private String outputDir;
   private Logger logger;
   private final String submissionOrderFilename = "submissions.lst";
-  private final double QRO = 5; // maximum 5 watts
+  private final double QRO = 1; // maximum 1 watt
   
   /**
    * @param args - e.g) -D -T pop3s -H pop3.live.com -U foo@hotmail.com -P Bar -O c:/temp2 -S "NAQCC Sprint Log"
@@ -30,7 +34,7 @@ public final class ContestResultGenerator {
     logger.message("\nNAQCC Sprint Result Page Generator\n");
     logger.message("Program started.");
     ContestResultGenerator gen = new ContestResultGenerator();
-    //gen.readEMailAndArchive(args);
+    gen.readEMailAndArchive(args);
     gen.generateHTMLFromArchive(args); // read the value of -O, archive directory from args
     logger.message("Completed.");
     System.exit(0);
@@ -69,6 +73,8 @@ public final class ContestResultGenerator {
     Vector<String> callsigns = new Vector<String>();
     for(int i=0; i<files.length; i++) {
       file = files[i];
+      if(file.getName().equalsIgnoreCase(submissionOrderFilename))
+        continue; // skip submission.lst
       streamReader = new InputStreamReader(new FileInputStream(file));
       loggerReader = new AutoLoggerReader(streamReader);
       entry = loggerReader.readLogEntry();
@@ -95,7 +101,7 @@ public final class ContestResultGenerator {
         outputDir = args[++optind];
       }
     }    
-    String outputFilename = "sprint_result.html";
+    String outputFilename = "sprint201312mw.html";
     logger.info("HTML file to be generated: " + outputFilename);
     // Read in the submission files from outputDir, build LogEntry items for score processing.
     File dir = new File(outputDir);
@@ -148,6 +154,9 @@ public final class ContestResultGenerator {
   
   private Vector<String> getSubmissionOrder() throws IOException {
     File file=new File(outputDir+"/"+submissionOrderFilename);
+    if(!file.exists()) {
+      file.createNewFile();
+    }
     BufferedReader reader = new BufferedReader(new FileReader(file));
     String line;
     Vector<String> v= new Vector<String>();

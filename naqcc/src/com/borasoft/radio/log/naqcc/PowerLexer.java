@@ -1,5 +1,10 @@
 package com.borasoft.radio.log.naqcc;
 
+// TODO: Need to handle some unexpected cases like below.
+//         - 0.8,
+//         - 1/2 watt
+//         - <1W
+
 public class PowerLexer {
   
     private String in;
@@ -35,14 +40,23 @@ public class PowerLexer {
         buf.append("0.");
         while((c=in.charAt(cursor++))>='0' && c<='9') {
           buf.append(c);
+          if(in.length()<=cursor) { // there is no unit specified in input. assume 'W'.
+            cursor++; // compensate for cursor-- to be done before returning below.
+            break;     
+          } 
         }
         buf.trimToSize();
         power=Double.valueOf(buf.toString()).doubleValue();
       } else {
         buf.append(c);
-        while(((c=in.charAt(cursor++))>='0' && c<='9') || c=='.') {
-          buf.append(c);
+        for(;cursor<in.length();cursor++) {
+          c=in.charAt(cursor);
+          if((c>='0' && c<='9') || c=='.') {
+            buf.append(c);
+          } else
+            break;
         }
+        cursor++;
         buf.trimToSize();
         power=Double.valueOf(buf.toString()).doubleValue();
       }
@@ -57,7 +71,7 @@ public class PowerLexer {
       char c=in.charAt(cursor);
       if(c=='w' || c=='W') {
         // the value of power remains the same
-      } else if (c=='m') {
+      } else if (c=='m' || c=='M') {
         power = power * 0.001;
       } else {
         throw new Exception("Unknown power unit: " + c);
@@ -73,6 +87,10 @@ public class PowerLexer {
       PowerLexer lexer=new PowerLexer("900mW");
       double d=lexer.getPower();
       System.out.println("Power is: "+d+"watts");
+      
+      lexer=new PowerLexer("900 Mw");
+      d=lexer.getPower();
+      System.out.println("Power is: "+d+"watts");      
       
       lexer=new PowerLexer(".9 W");
       d=lexer.getPower();
@@ -90,6 +108,13 @@ public class PowerLexer {
       d=lexer.getPower();
       System.out.println("Power is: "+d+"watts");
       
+      lexer=new PowerLexer("0.9");
+      d=lexer.getPower();
+      System.out.println("Power is: "+d+"watts");
+
+      lexer=new PowerLexer("9");
+      d=lexer.getPower();
+      System.out.println("Power is: "+d+"watts");      
     }
       
 }

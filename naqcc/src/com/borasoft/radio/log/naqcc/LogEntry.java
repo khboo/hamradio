@@ -123,9 +123,9 @@ public class LogEntry {
 	  // Replace '&' with "&amp;"
 	  ns = ns.replaceAll("[&]","&amp;");
 	  // Replace '<' with "&LT;"
-	  ns = ns.replaceAll("[<]","&LT;");
+	  ns = ns.replaceAll("[<]","&lt;");
 	  // Replace '>' with "&GT;"
-	  ns = ns.replaceAll("[>]","&GT;");
+	  ns = ns.replaceAll("[>]","&gt;");
 	  return ns;
 	}
 }

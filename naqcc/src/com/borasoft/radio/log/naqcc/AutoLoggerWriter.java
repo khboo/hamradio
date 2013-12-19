@@ -14,6 +14,9 @@ import java.util.Vector;
 
 import com.borasoft.radio.utils.Logger;
 
+// TODO: Externalize the maximum power limit for the sprint. Currently it is set to 1 watt.
+// TODO: QRO entries shift the columns by one space to the right because of '$' or '@'.
+
 public class AutoLoggerWriter {
 	private PrintWriter writer;
 	private final String[] callAreas = {
@@ -21,7 +24,7 @@ public class AutoLoggerWriter {
 	};
 	private Logger logger=Logger.getInstance();
 	
-	private double maximumPower = 5; // maximum 5 watts
+	private double maximumPower = 1; // maximum 1 watt for mW sprint
 
 	public AutoLoggerWriter(OutputStreamWriter writer) {
 		this.writer = new PrintWriter(writer);
@@ -89,7 +92,7 @@ public class AutoLoggerWriter {
         // <span class="red">SWA Category - W1 Division</span>
         writer.println("<span class=\"red\">SWA Category - " + key + " Division</span>");
       }
-      writer.printf("%6s %4s %4s %3s %3s %4s %4s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","160 Antenna");
+      writer.printf("%6s %4s %4s %3s %3s %4s %4s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
       entryArray = entries.get(key);
       if(entryArray==null) {
         writer.println();
@@ -100,12 +103,13 @@ public class AutoLoggerWriter {
       qroEntries = new Vector<LogEntry>();
       for(int j=entryArray.length-1; j>=0; j--) { // print in descending order
         entry = entryArray[j];
+        logger.info("Processing: "+ entry.getCallsign());
         lexer=new PowerLexer(entry.getPower());
         try {
           if(lexer.getPower()<=maximumPower) {
             writeScore(entry);
           } else {
-            entry.setCallsign("@"+entry.getCallsign());
+            entry.setCallsign("$"+entry.getCallsign());
             qroEntries.add(entry);
           }
         } catch (Exception e) {
@@ -115,11 +119,18 @@ public class AutoLoggerWriter {
       }
       // print out QRO entries
       for(int k=0;k<qroEntries.size();k++) {
-        entry=qroEntries.elementAt(i);
+        entry=qroEntries.elementAt(k);
         writeScore(entry);
       }      
       writer.println();
     }
+    // Write notes
+    // @ Non-member not eligible for certificate
+    // $ QRO More than one watt - not eligible for certificate
+    writer.println();
+    writer.println("@ Non-member not eligible for certificate");
+    writer.println("$ QRO More than one watt - not eligible for certificate");
+    writer.println();
     writeAwardWinners();
 	}
 	
@@ -217,6 +228,9 @@ public class AutoLoggerWriter {
       key=e.nextElement();
       //logger.info("Generating soapbox comments for: "+key);
       entry=submissions.get(key);
+      if(entry==null) { // there could be zero entries
+        continue;
+      }
       if(entry.getSoapbox()!=null && entry.getSoapbox().trim().length() != 0) {
         writer.println(entry.getCallsign() + " - " + entry.getSoapbox());
         writer.println("<br/><br/>");

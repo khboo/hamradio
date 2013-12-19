@@ -20,6 +20,8 @@ import javax.mail.Store;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 
+// TODO: To handle exception when an invalid log is encountered.
+
 public final class EMailReader {
   
   private String subjectToSearch = "None";
