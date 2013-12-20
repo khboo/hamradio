@@ -36,7 +36,7 @@ public class AutoLoggerWriter {
 		generateSoapbox(entries,submissionOrder);
 		generateEpilog();
 	}
-	
+	/*
 	public void writeText(Hashtable<String,LogEntry[]> entries) throws IOException {
 	  Enumeration<String> enu = entries.keys();
 	  String key;
@@ -63,7 +63,7 @@ public class AutoLoggerWriter {
 	    writer.println();
 	  }
 	}
-	
+	*/
 	private void generateProlog() throws FileNotFoundException, IOException {
 	  int c;
 	  InputStreamReader reader = new InputStreamReader(new FileInputStream(new File("prolog.tmp")));
@@ -92,7 +92,7 @@ public class AutoLoggerWriter {
         // <span class="red">SWA Category - W1 Division</span>
         writer.println("<span class=\"red\">SWA Category - " + key + " Division</span>");
       }
-      writer.printf("%6s %4s %4s %3s %3s %4s %4s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
+      writer.printf("%7s %4s %4s %3s %3s %4s %4s %5s %s\n","Call   ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
       entryArray = entries.get(key);
       if(entryArray==null) {
         writer.println();
@@ -167,8 +167,9 @@ public class AutoLoggerWriter {
 	private void writeScore(LogEntry entry) {
 	  // formatting for callsign
 	  String callsign =  entry.getCallsign().trim().toUpperCase();
-	  if (callsign.length()<6) {
-	    for(int k=0;k<=6-callsign.length();k++) {
+	  int length = callsign.length();
+	  if (length<7) {
+	    for(int k=0;k<7-length;k++) {
 	      callsign += " ";
 	    }
 	  }
@@ -179,8 +180,8 @@ public class AutoLoggerWriter {
 	  } else {
 	    bonus = "x" + bonus;
 	  }
-	  // callsign(6), qso(4), member qso(4), points(3), multiplier(3), score(4), bonus(3), final(5), antenna
-	  writer.printf("%6s %4s %4s %3d %3s %4d %4s %5d %s\n",callsign,entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),bonus,entry.getFinal(),entry.getAntenna());
+	  // callsign(7), qso(4), member qso(4), points(3), multiplier(3), score(4), bonus(3), final(5), antenna
+	  writer.printf("%7s %4s %4s %3d %3s %4d %4s %5d %s\n",callsign,entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),bonus,entry.getFinal(),entry.getAntenna());
 	}
 	
 	public void generateSoapboxOLD(Hashtable<String,LogEntry[]> entries) {
@@ -226,13 +227,20 @@ public class AutoLoggerWriter {
     Enumeration<String> e=submissionOrder.elements();
     while(e.hasMoreElements()) {
       key=e.nextElement();
-      //logger.info("Generating soapbox comments for: "+key);
+      logger.info("Generating soapbox comments for: "+key);
       entry=submissions.get(key);
-      if(entry==null) { // there could be zero entries
-        continue;
+      if(entry==null) { // there could be zero entries, '$'+key, or '@'+key
+        entry=submissions.get("$"+key);
+        if(entry==null) {
+          entry=submissions.get("@"+key);
+          if(entry==null) {
+            continue;
+          }
+        }
       }
       if(entry.getSoapbox()!=null && entry.getSoapbox().trim().length() != 0) {
-        writer.println(entry.getCallsign() + " - " + entry.getSoapbox());
+        writer.println(key + " - " + entry.getSoapbox());
+        //writer.println(entry.getCallsign() + " - " + entry.getSoapbox()); //TODO - remove $callsign, @callsign
         writer.println("<br/><br/>");
       }
     }
