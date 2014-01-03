@@ -13,18 +13,17 @@ import java.io.OutputStreamWriter;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-
+import java.util.Properties;
 import com.borasoft.radio.utils.Logger;
 
-// TODO: Externalize the generated output HTML file name. 
-//       Currently it is set to "sprint201312mw.html".
-//       Externalize QRO. Currently it does not do anything.
 
 public final class ContestResultGenerator {
   private String outputDir;
   private Logger logger;
   private final String submissionOrderFilename = "submissions.lst";
-  private final double QRO = 1; // maximum 1 watt
+  private double maxPower;
+  private int mode;
+  private String outputFilename;
   
   /**
    * @param args - e.g) -D -T pop3s -H pop3.live.com -U foo@hotmail.com -P Bar -O c:/temp2 -S "NAQCC Sprint Log"
@@ -32,12 +31,34 @@ public final class ContestResultGenerator {
   public static void main(String[] args) throws FileNotFoundException, IOException {
     Logger logger= Logger.getInstance();
     logger.message("\nNAQCC Sprint Result Page Generator\n");
-    logger.message("Program started.");
+    logger.message("Program starting...");   
+    logger.message("Program initialized successfully.");
     ContestResultGenerator gen = new ContestResultGenerator();
+    gen.initialize(); // load properties values.
     gen.readEMailAndArchive(args);
     gen.generateHTMLFromArchive(args); // read the value of -O, archive directory from args
     logger.message("Completed.");
     System.exit(0);
+  }
+  
+  private void initialize() throws IOException {
+    Properties props = new Properties();
+    props.load(new FileInputStream("naqcc.properties"));
+    if(props.containsKey("SPRINT_MODE")) {
+      mode=Integer.parseInt(props.getProperty("SPRINT_MODE"));
+    } else {
+      logger.error("SPRINT_MODE is not found in naqcc.properties");
+    }
+    if(props.containsKey("MAX_POWER")) {
+      maxPower=Integer.parseInt(props.getProperty("MAX_POWER"));
+    } else {
+      logger.error("MAX_POWER is not found in naqcc.properties");
+    }
+    if(props.containsKey("OUTPUT_FILENAME")) {
+      outputFilename=props.getProperty("OUTPUT_FILENAME");
+    } else {
+      logger.error("OUTPUT_FILENAME is not found in naqcc.properties");
+    }    
   }
   
   public ContestResultGenerator() {
@@ -101,7 +122,6 @@ public final class ContestResultGenerator {
         outputDir = args[++optind];
       }
     }    
-    String outputFilename = "sprint201312mw.html";
     logger.info("HTML file to be generated: " + outputFilename);
     // Read in the submission files from outputDir, build LogEntry items for score processing.
     File dir = new File(outputDir);
@@ -147,7 +167,7 @@ public final class ContestResultGenerator {
 //    loggerWriter.writeText(result);
 //    loggerWriter.generateSoapbox(result);
     Vector<String> submissionOrder = getSubmissionOrder();
-    loggerWriter.writeHTML(result,submissionOrder,QRO);
+    loggerWriter.writeHTML(result,submissionOrder,mode,maxPower);
     logger.message("The results are in: " + outputFilename);
     writer.close();
   }

@@ -15,7 +15,6 @@ import java.util.Vector;
 import com.borasoft.radio.utils.Logger;
 
 // TODO: Externalize the maximum power limit for the sprint. Currently it is set to 1 watt.
-// TODO: QRO entries shift the columns by one space to the right because of '$' or '@'.
 
 public class AutoLoggerWriter {
 	private PrintWriter writer;
@@ -24,49 +23,25 @@ public class AutoLoggerWriter {
 	};
 	private Logger logger=Logger.getInstance();
 	
-	private double maximumPower = 1; // maximum 1 watt for mW sprint
+	private double maximumPower;
+	private int sprintMode;
 
 	public AutoLoggerWriter(OutputStreamWriter writer) {
 		this.writer = new PrintWriter(writer);
 	}
 	
-	public void writeHTML(Hashtable<String,LogEntry[]> entries,Vector<String> submissionOrder,double maxPower) throws IOException{
+	public void writeHTML(Hashtable<String,LogEntry[]> entries,Vector<String> submissionOrder,int mode,double maxPower) throws IOException{
+	  sprintMode=mode;
+	  maximumPower=maxPower;
 		generateProlog();
 		generateScores(entries);
 		generateSoapbox(entries,submissionOrder);
 		generateEpilog();
 	}
-	/*
-	public void writeText(Hashtable<String,LogEntry[]> entries) throws IOException {
-	  Enumeration<String> enu = entries.keys();
-	  String key;
-	  LogEntry[] entryArray;
-	  LogEntry entry;
-	  while(enu.hasMoreElements()) {
-	    key = enu.nextElement();
-	    writer.println("SWA Category - " + key + " Division");
-	    writer.printf("%6s %4s %4s %3s %3s %4s %4s %5s %s\n","Call  ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
-	    entryArray = entries.get(key);
-	    String bonus = "";
-	    for(int i=entryArray.length-1; i>=0; i--) {
-	      entry = entryArray[i];
-	      // formatting for bonus
-	      bonus = entry.getBonusMult();
-	      if (bonus.equalsIgnoreCase("1")) {
-	        bonus = "";
-	      } else {
-	        bonus = "x" + bonus;
-	      }
-	      // callsign(6), qso(4), member qso(4), points(3), multiplier(3), score(4), bonus(3), final(5), antenna
-	      writer.printf("%6s %4s %4s %3d %3s %4d %4s %5d %s\n",entry.getCallsign(),entry.getQSOs(),entry.getMemberQSOs(),entry.getPoints(),entry.getMultipliers(),entry.getScore(),bonus,entry.getFinal(),entry.getAntenna());
-	    }
-	    writer.println();
-	  }
-	}
-	*/
+	
 	private void generateProlog() throws FileNotFoundException, IOException {
 	  int c;
-	  InputStreamReader reader = new InputStreamReader(new FileInputStream(new File("prolog.tmp")));
+	  InputStreamReader reader = new InputStreamReader(new FileInputStream(new File("prolog_"+sprintMode+".tmp")));
 	  while((c=reader.read()) != -1) {
 	    writer.write(c);
 	  }
@@ -92,7 +67,11 @@ public class AutoLoggerWriter {
         // <span class="red">SWA Category - W1 Division</span>
         writer.println("<span class=\"red\">SWA Category - " + key + " Division</span>");
       }
-      writer.printf("%7s %4s %4s %3s %3s %4s %4s %5s %s\n","Call   ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
+      if(sprintMode==NAQCCConstants.SPRINT_MW) {
+        writer.printf("%7s %4s %4s %3s %3s %4s %4s %5s %s\n","Call   ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","80-40-20 Antenna");
+      } else {
+        writer.printf("%7s %4s %4s %3s %3s %4s %4s %5s %s\n","Call   ","QSOs","Mbrs","Pts","Mul"," Sco","Bon","Final","160 Antenna");
+      }
       entryArray = entries.get(key);
       if(entryArray==null) {
         writer.println();
@@ -223,7 +202,6 @@ public class AutoLoggerWriter {
       }
     }
     // Write the soapbox contents in 'submissions' according to the order in submissions.lst. 
-    String soapbox=null;
     Enumeration<String> e=submissionOrder.elements();
     while(e.hasMoreElements()) {
       key=e.nextElement();
@@ -248,7 +226,7 @@ public class AutoLoggerWriter {
 	
 	private void generateEpilog() throws IOException {
     int c;
-    InputStreamReader reader = new InputStreamReader(new FileInputStream(new File("epilog.tmp")));
+    InputStreamReader reader = new InputStreamReader(new FileInputStream(new File("epilog_"+sprintMode+".tmp")));
     while((c=reader.read()) != -1) {
       writer.write(c);
     }
@@ -257,7 +235,8 @@ public class AutoLoggerWriter {
 	}
 	
 	// test only
-	public static void main(String[] args) throws FileNotFoundException, IOException {
+	@SuppressWarnings("unused")
+  public static void main(String[] args) throws FileNotFoundException, IOException {
 		FileInputStream stream = new FileInputStream("autologger_sample.txt");
 		InputStreamReader reader = new InputStreamReader(stream);
 		AutoLoggerReader logReader = new AutoLoggerReader(reader);
